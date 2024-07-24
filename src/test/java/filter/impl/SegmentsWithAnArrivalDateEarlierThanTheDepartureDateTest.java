@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,15 +21,12 @@ class SegmentsWithAnArrivalDateEarlierThanTheDepartureDateTest {
     @Test
     void filter() {
         List<Flight> expected = test.filter(flights);
-        List<Flight> actual = flights.stream()
-                .filter(flight -> flight.getSegments().stream()
-                        .noneMatch(segment -> segment.getArrivalDate().toLocalDate()
-                                .isBefore(segment.getDepartureDate().toLocalDate())))
+        List<Flight> actual = flights.stream().filter(flight -> flight.getSegments().stream()
+                        .anyMatch(segment -> segment.getDepartureDate().isBefore(segment.getArrivalDate())))
                 .toList();
         int expectedSize = expected.size();
-        int actualSize = actual.size();
-        assertNotEquals(flights.size(), actualSize);
-        assertEquals(expectedSize, actualSize);
+        int actualSize = flights.size();
+        assertNotEquals(expectedSize, actualSize);
         assertEquals(expected, actual);
     }
 }
