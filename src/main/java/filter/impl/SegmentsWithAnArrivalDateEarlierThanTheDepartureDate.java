@@ -4,7 +4,6 @@ import com.gridnine.testing.Flight;
 import filter.FlightFilter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SegmentsWithAnArrivalDateEarlierThanTheDepartureDate implements FlightFilter {
 
@@ -17,6 +16,9 @@ public class SegmentsWithAnArrivalDateEarlierThanTheDepartureDate implements Fli
     public List<Flight> filter(List<Flight> flights) {
         return flights.stream().filter(flight -> flight.getSegments().stream()
                         .anyMatch(segment -> segment.getDepartureDate().isBefore(segment.getArrivalDate())))
+             // .filter(flight -> flight.getSegments().stream()
+                // .noneMatch(segment ->segment.getDepartureDate().toLocalTime().equals(segment.getArrivalDate().toLocalTime()))
+                // в задании не указано, нужна ли фильтрация по равенству даты отправления и прибытия
                 .toList();
     }
 }
