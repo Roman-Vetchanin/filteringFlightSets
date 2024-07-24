@@ -6,13 +6,13 @@ import filter.FlightFilter;
 import filter.impl.DepartureToTheCurrentPointInTime;
 import filter.impl.SegmentsWithAnArrivalDateEarlierThanTheDepartureDate;
 import filter.impl.TimeOnEarthMoreThanTwoHours;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.function.BooleanSupplier;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class FiltrationFactoryTest {
@@ -26,18 +26,26 @@ class FiltrationFactoryTest {
     }
 
     @Test
-    void createFlightFilter() {
-        List<Flight> instantDepartureToTheCurrentPointInTime = FiltrationFactory.createFlightFilter(FilterType.DEPARTURE_BEFORE_CURRENT_TIME,flights);
-        assertEquals(departureToTheCurrentPointInTime.filter(flights), instantDepartureToTheCurrentPointInTime);
-        Object expected = instantDepartureToTheCurrentPointInTime.getClass();
+    void createFlightFilterTest() {
+        FlightFilter instantDepartureToTheCurrentPointInTime = FiltrationFactory.createFlightFilter(FilterType.DEPARTURE_BEFORE_CURRENT_TIME);
+        assertEquals(departureToTheCurrentPointInTime.filter(flights), instantDepartureToTheCurrentPointInTime.filter(flights));
+        Object expected = FiltrationFactory.createFlightFilter(FilterType.DEPARTURE_BEFORE_CURRENT_TIME).getClass();
         Object actual = departureToTheCurrentPointInTime.getClass();
+        assertEquals(expected, actual);
 
-        List<Flight> instantSegmentsWithAnArrivalDateEarlierThanTheDepartureDate = FiltrationFactory.createFlightFilter(FilterType.SEGMENTS_WITH_AN_ARRIVAL_DATE_EARLIER_THAN_THE_DEPARTURE_DATE,flights);
-        assertEquals(segmentsWithAnArrivalDate.filter(flights), instantSegmentsWithAnArrivalDateEarlierThanTheDepartureDate);
 
-        List<Flight>flightFilter = FiltrationFactory.createFlightFilter(FilterType.TIME_ON_EARTH_MORE_THAN_TWO_HOURS,flights);
-        assertEquals(timeOnEarthMoreThanTwoHours.filter(flights), flightFilter);
+        FlightFilter instantSegmentsWithAnArrivalDateEarlierThanTheDepartureDate = FiltrationFactory.createFlightFilter(FilterType.SEGMENTS_WITH_AN_ARRIVAL_DATE_EARLIER_THAN_THE_DEPARTURE_DATE);
+        assertEquals(segmentsWithAnArrivalDate.filter(flights), instantSegmentsWithAnArrivalDateEarlierThanTheDepartureDate.filter(flights));
+        expected = FiltrationFactory.createFlightFilter(FilterType.SEGMENTS_WITH_AN_ARRIVAL_DATE_EARLIER_THAN_THE_DEPARTURE_DATE).getClass();
+        actual = instantSegmentsWithAnArrivalDateEarlierThanTheDepartureDate.getClass();
+        assertEquals(expected, actual);
 
-        assertThrows(IllegalArgumentException.class, () -> FiltrationFactory.createFlightFilter(FilterType.valueOf("INVALID_FILTER_TYPE"), flights));
+        FlightFilter instantTimeOnEarthMoreThanTwoHours = FiltrationFactory.createFlightFilter(FilterType.TIME_ON_EARTH_MORE_THAN_TWO_HOURS);
+        assertEquals(timeOnEarthMoreThanTwoHours.filter(flights), instantTimeOnEarthMoreThanTwoHours.filter(flights));
+        expected = FiltrationFactory.createFlightFilter(FilterType.TIME_ON_EARTH_MORE_THAN_TWO_HOURS).getClass();
+        actual = instantTimeOnEarthMoreThanTwoHours.getClass();
+        assertEquals(expected, actual);
+
+        assertThrows(IllegalArgumentException.class, () -> FiltrationFactory.createFlightFilter(FilterType.valueOf("INVALID_FILTER_TYPE")));
     }
 }
