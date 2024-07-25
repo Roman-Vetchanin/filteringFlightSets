@@ -15,7 +15,7 @@ public class SegmentsWithAnArrivalDateEarlierThanTheDepartureDate implements Fli
     @Override
     public List<Flight> filter(List<Flight> flights) {
         return flights.stream().filter(flight -> flight.getSegments().stream()
-                        .anyMatch(segment -> segment.getDepartureDate().isBefore(segment.getArrivalDate())))
+                        .allMatch(segment -> segment.getDepartureDate().isBefore(segment.getArrivalDate())))
              // .filter(flight -> flight.getSegments().stream()
                 // .noneMatch(segment ->segment.getDepartureDate().toLocalTime().equals(segment.getArrivalDate().toLocalTime()))
                 // в задании не указано, нужна ли фильтрация по равенству даты отправления и прибытия

@@ -1,13 +1,9 @@
 package factory;
 
+import filter.FlightFilter;
 import filter.impl.DepartureToTheCurrentPointInTime;
 import filter.impl.SegmentsWithAnArrivalDateEarlierThanTheDepartureDate;
 import filter.impl.TimeOnEarthMoreThanTwoHours;
-import com.gridnine.testing.Flight;
-import filter.FlightFilter;
-
-
-import java.util.List;
 
 
 public class FiltrationFactory {

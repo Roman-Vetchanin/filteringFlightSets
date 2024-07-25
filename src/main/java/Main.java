@@ -20,6 +20,5 @@ public class Main {
         segmentsWithAnArrivalDateEarlierThanTheDeparture.filter(flights).forEach(System.out::println);
         System.out.println("==========================3===================================");
         timeOnEarthMoreThanTwoHours.filter(flights).forEach(System.out::println);
-
     }
 }

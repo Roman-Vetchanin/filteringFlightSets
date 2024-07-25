@@ -21,6 +21,7 @@ public class DepartureToTheCurrentPointInTime implements FlightFilter {
     @Override
     public List<Flight> filter (List<Flight> flights) {
         return flights.stream().filter(flight -> flight.getSegments()
-                .stream().anyMatch(segment -> segment.getDepartureDate().isAfter(currentTime))).collect(Collectors.toList());
+                .stream().allMatch(segment -> segment.getDepartureDate().isAfter(currentTime))).collect(Collectors.toList());
+
     }
 }
